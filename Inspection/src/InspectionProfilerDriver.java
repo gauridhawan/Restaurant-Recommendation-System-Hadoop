@@ -1,0 +1,36 @@
+
+
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+import InspectionProfiler.InspectionProfilerMapper;
+import InspectionProfiler.InspectionProfilerReducer;
+
+import org.apache.hadoop.mapreduce.Job;
+
+public class InspectionProfilerDriver {
+
+    public static void main(String[] args) throws Exception {
+
+        if (args.length != 2) {
+            System.err.println("Wrong input format for wordCount map reduce.");
+            System.exit(-1);
+        }
+
+        Job job = new Job();
+        job.setJarByClass(InspectionProfilerDriver.class);
+        job.setJobName("Profiling inspection data");
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        job.setMapperClass(InspectionProfilerMapper.class);
+        job.setReducerClass(InspectionProfilerReducer.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(IntWritable.class);
+        job.setNumReduceTasks(1);
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
+    }
+}

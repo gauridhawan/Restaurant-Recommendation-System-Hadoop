@@ -1,0 +1,5 @@
+1. We did some more cleaning:
+a. Changed all JSONs to TSVs to be read in Impala(Code Attached). Made changes in the same Java Project.
+b. Cleaned on the basis of address, as there were many restaurants with the same name but different address, so to match on the address. (Java Mapreduce).
+
+2. Ran analytic code in Impala by creating new tables and joining the 2 datasets and running queries.(Attached file)
